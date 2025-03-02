@@ -4,28 +4,26 @@ project(Agar VERSION 0.1)
 
 find_package(OpenGL REQUIRED)
 
-set(CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/Agar-libs/enet)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Agar-libs/glm-1.0.1)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Agar-libs/glfw-3.4)
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/Agar-libs/enet/include
-    ${PROJECT_SOURCE_DIR}/Agar-libs/glad/include
-    ${PROJECT_SOURCE_DIR}/Agar-libs/glfw-3.4/include
+    ${PROJECT_SOURCE_DIR}/Agar-libs/enet/include/
+    ${PROJECT_SOURCE_DIR}/Agar-libs/glad/include/
+    ${PROJECT_SOURCE_DIR}/Agar-libs/glfw-3.4/include/
     ${PROJECT_SOURCE_DIR}/Agar-libs/glm-1.0.1/
-    ${PROJECT_SOURCE_DIR}/Agar-libs/stb
+    ${PROJECT_SOURCE_DIR}/Agar-libs/stb/
 )
 
-if(LINUX)
-    link_libraries(
-        ${PROJECT_SOURCE_DIR}/build/Agar-libs/enet/libenet.a
-        ${PROJECT_SOURCE_DIR}/build/Agar-libs/glm-1.0.1/glm/libglm.a
-        ${PROJECT_SOURCE_DIR}/build/Agar-libs/glfw-3.4/src/libglfw3.a
-    )
-endif()
-
+link_libraries(
+    ${PROJECT_SOURCE_DIR}/build/Agar-libs/enet/libenet.a
+    ${PROJECT_SOURCE_DIR}/build/Agar-libs/glm-1.0.1/glm/libglm.a
+    ${PROJECT_SOURCE_DIR}/build/Agar-libs/glfw-3.4/src/libglfw3.a
+)
 
 add_executable(
     Agar
@@ -41,8 +39,7 @@ add_executable(
     ${PROJECT_SOURCE_DIR}/src/engine/util/time.cpp
     ${PROJECT_SOURCE_DIR}/src/engine/io/window.cpp
     ${PROJECT_SOURCE_DIR}/src/engine/io/logger.cpp
-    ${PROJECT_SOURCE_DIR}/src/engine/engine.cpp
-    
+    ${PROJECT_SOURCE_DIR}/src/engine/engine.cpp  
 )
 
 add_executable(

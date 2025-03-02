@@ -1,6 +1,7 @@
 #include "engine/engine.h"
 #include <enet/enet.h>
 #include <vector>
+#include <bit>
 #include <iostream>
 #include <cassert>
 #include <thread>
@@ -57,7 +58,7 @@ struct Ball {
     }
 };
 
-void Networking(std::vector<Ball> &balls) {
+void Networking(std::vector<Ball> &players ,std::vector<Ball> &balls) {
     ENetHost *client = nullptr;
 	ENetPeer *server = nullptr;
 
@@ -106,22 +107,30 @@ void Networking(std::vector<Ball> &balls) {
 
 					case ENET_EVENT_TYPE_RECEIVE:
                     if(!firstPacket) {
-                        printf("A packet of length %u containing %s was received on channel %u.\n",
-                            event.packet->dataLength,
-                            event.packet->data,
-                            event.channelID);
+                        // printf("A packet of length %u containing %s was received on channel %u.\n",
+                        //     event.packet->dataLength,
+                        //     event.packet->data,
+                        //     event.channelID
+                        // );
     
                         enet_packet_destroy(event.packet);
+
+                        std::cin;
+
+                        balls;
                     } else {
-                        for(Ball &ball : balls) {
-                            ball.ID = *event.packet->data;
-                            printf("%i\n", ball.ID);
+                        std::string aboba = "";
+                        
+                        aboba.append((char*)event.packet->data);
+
+                        for(Ball &ball : players) {
+                            ball.ID = std::stoi(aboba);
                         }
+                        
                         enet_packet_destroy(event.packet);
                         firstPacket = !firstPacket;
                     }
-					
-
+                    
 					break;
 
 					case ENET_EVENT_TYPE_DISCONNECT:
@@ -133,7 +142,7 @@ void Networking(std::vector<Ball> &balls) {
 
                 std::string ballPos = "";
 
-                for(Ball &ball : balls) {
+                for(Ball &ball : players) {
                     ballPos.append(std::to_string(ball.ID) + " " + std::to_string(ball.pos.x) + " " + std::to_string(ball.pos.y));
                 }
                 SendPacket(ballPos.c_str(), ballPos.size() + 1, server);
@@ -176,7 +185,7 @@ int main() {
 
     glm::vec2 cameraPosition;
 
-    std::thread networking(Networking, std::ref(player_balls));
+    std::thread networking(Networking, std::ref(player_balls), std::ref(balls));
 
     int fps = 0;
 

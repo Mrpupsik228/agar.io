@@ -77,7 +77,7 @@ namespace Brainstorm {
 			if (existingIncludeFound) {
 				continue;
 			}
-			if (!preprocessShader(includePath.c_str(), include, includePathes, includeDepth + 1)) {
+			if (!preprocessShader(includePath.string().c_str(), include, includePathes, includeDepth + 1)) {
 				Logger::error("Could not include: #include \"%s\". From shader: %s.", includePath.c_str(), location);
 				file.close();
 
