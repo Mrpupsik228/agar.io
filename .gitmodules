@@ -1,0 +1,12 @@
+[submodule "Agar-libs/glfw-3.4"]
+	path = Agar-libs/glfw-3.4
+	url = https://github.com/glfw/glfw.git
+[submodule "Agar-libs/glm-1.0.1"]
+	path = Agar-libs/glm-1.0.1
+	url = https://github.com/g-truc/glm.git
+[submodule "Agar-libs/stb"]
+	path = Agar-libs/stb
+	url = https://github.com/nothings/stb.git
+[submodule "Agar-libs/enet"]
+	path = Agar-libs/enet
+	url = https://github.com/lsalzman/enet.git
