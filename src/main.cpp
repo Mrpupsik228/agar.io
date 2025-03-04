@@ -18,7 +18,7 @@ struct Ball {
     glm::vec2 velocity;
     bool isPlayer;
     bool isDead = false;
-    int ID = 0;
+    uint8_t ID = 0;
 
 
     Ball(glm::vec2 position, double points, glm::vec3 color): pos(position), points(points),  color(color) {};
@@ -56,6 +56,11 @@ struct Ball {
 
         pos += velocity * time.getDelta();
     }
+};
+
+struct Data {
+    uint8_t ID;
+    glm::vec2 pos;
 };
 
 void Networking(std::vector<Ball> &players ,std::vector<Ball> &balls) {
@@ -107,24 +112,21 @@ void Networking(std::vector<Ball> &players ,std::vector<Ball> &balls) {
 
 					case ENET_EVENT_TYPE_RECEIVE:
                     if(!firstPacket) {
-                        // printf("A packet of length %u containing %s was received on channel %u.\n",
-                        //     event.packet->dataLength,
-                        //     event.packet->data,
-                        //     event.channelID
-                        // );
-    
-                        enet_packet_destroy(event.packet);
-
-                        std::cin;
-
-                        balls;
-                    } else {
-                        std::string aboba = "";
                         
-                        aboba.append((char*)event.packet->data);
+                        std::vector<Data> bloba;
+                        std::stringstream aboba{(char*)event.packet->data};
 
+                        while(aboba) {
+                            bloba.push_back({});
+                            aboba >> bloba.back().ID;
+                            aboba >> bloba.back().pos.x;
+                            aboba >> bloba.back().pos.y;
+                        }
+
+                        enet_packet_destroy(event.packet);
+                    } else {
                         for(Ball &ball : players) {
-                            ball.ID = std::stoi(aboba);
+                            ball.ID = std::stoi((char*)event.packet->data);
                         }
                         
                         enet_packet_destroy(event.packet);
